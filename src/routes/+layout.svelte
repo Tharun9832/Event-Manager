@@ -4,8 +4,7 @@
     </div>
     <div class="header-right">
         <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/">Login</a>
+        <a href="/login">Login</a>
     </div>
 </div>
 
@@ -13,7 +12,10 @@
 
 <style>
     a:link {
-        color: white;
+        color: var(--title-color);
+    }
+    a:visited {
+        color: var(--title-color);
     }
     .header {
         height: 50px;
@@ -23,14 +25,14 @@
         box-shadow: 0 1px 5px 0px grey;
     }
     .header-left {
-        margin-left: 20px;
+        margin-left: 25px;
         font-family: var(--title-font);
         font-size: 1.4rem;
     }
     .header-right {
-        width: 180px;
+        width: 110px;
         font-family: var(--body-font);
-        margin-right: 20px;
+        margin-right: 25px;
         font-size: 1rem;
         display: flex;
         justify-content: space-between;
