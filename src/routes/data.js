@@ -5,7 +5,7 @@ export const events = [
         fee: "None",
         date: "23/12/2023",
         duration: "1",
-        poster: "images/event_posters12.jpg",
+        poster: "images/poster1.jpg",
         link: 'https://google.com'
     },
     {
@@ -14,7 +14,7 @@ export const events = [
         fee: "None",
         date: "23/12/2023",
         duration: "2",
-        poster: "images/poster2.jpeg",
+        poster: "images/poster2.jpg",
         link: 'https://google.com'
     },
     {

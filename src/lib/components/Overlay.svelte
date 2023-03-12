@@ -1,5 +1,8 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { authStore } from "../stores/auth-store";
+    import { doc, deleteDoc } from "firebase/firestore";
+    import { db } from "../firebase-config";
 
 
     export let event;
@@ -8,9 +11,17 @@
     function closeOverlay() {
         dispatch('close');
     }
+
+    const handleDelete = async () => {
+        console.log("Deleting event...");
+        await deleteDoc(doc(db, "events", event.name));
+    }
 </script>
 
 <div class="overlay">
+    <div class="delete" class:hide={!$authStore.isLoggedIn}>
+        <button on:click={handleDelete}>Delete Event</button>
+    </div>
     <div class="container">
         <div class="poster">
             <img src={event.poster} alt="Event Poster">
@@ -25,7 +36,7 @@
         </div>
     </div>
     <div class="close">
-        <button on:click={closeOverlay}><i class="fa fa-times" aria-hidden="true"></i></button>
+        <button on:click={closeOverlay}>X</button>
     </div>
 </div>
 
@@ -78,5 +89,24 @@
         position: absolute;
         top: 10px;
         right: 10px;
+    }
+    .delete {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+    .close > button, .delete > button {
+        padding: 5px 10px;
+        outline: none;
+        background: none;
+        color: var(--highlight);
+        border: 2px solid var(--highlight);
+        border-radius: 5px;
+    }
+    .close :hover, .delete :hover {
+        color: white;
+    }
+    .hide {
+        display: none;
     }
 </style>

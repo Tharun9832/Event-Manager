@@ -12,11 +12,11 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="container" on:click={sendInfo}>
-    <div class="event-poster">
+<div class="container">
+    <div class="event-poster" on:click={sendInfo}>
         <img src={event.poster} alt="Event Poster" />
     </div>
-    <div class="event-details">
+    <div class="event-details" on:click={sendInfo}>
         <h3 id="name">{event.name}</h3>
         <p id="description">{event.description}</p>
         <p>Fee: {event.fee}</p>
