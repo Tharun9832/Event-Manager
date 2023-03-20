@@ -1,6 +1,7 @@
 <script>
     import Card from "$lib/components/Card.svelte";
     import Overlay from "$lib/components/Overlay.svelte";
+    import AddEvent from "$lib/components/AddEvent.svelte";
     import { authStore } from "$lib/stores/auth-store";
     import { db } from "$lib/firebase-config";
     import { collection, query, onSnapshot } from "firebase/firestore";
@@ -26,6 +27,7 @@
     });
 
     let hideOverlay = true;
+    let hideAddEvent = true;
     let dummy = {};
 
     function showOverlay(e) {
@@ -34,6 +36,9 @@
     }
     function closeOverlay() {
         hideOverlay = true;
+    }
+    function toggleAddEvent() {
+        hideAddEvent = !hideAddEvent;
     }
 </script>
 
@@ -45,13 +50,19 @@
 
 {#if $authStore.isLoggedIn}
     <div class="add-event">
-        <button>Add Event</button>
+        <button on:click={toggleAddEvent}>Add Event</button>
     </div>
 {/if}
 
 {#if !hideOverlay}
     <div>
         <Overlay event={dummy} on:close={closeOverlay} />
+    </div>
+{/if}
+
+{#if !hideAddEvent}
+    <div>
+        <AddEvent on:close={toggleAddEvent}/>
     </div>
 {/if}
 

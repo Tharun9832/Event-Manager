@@ -45,7 +45,7 @@
             placeholder="Password"
         />
         <button on:click={handleLogin}>Submit</button>
-        <p class:hide-message={!hasError} style="color:red">Check you Email and Password</p>
+        <p class:hide-message={!hasError} style="color:red">Check your Email and Password</p>
     </div>
 </div>
 
