@@ -14,7 +14,8 @@
 
     const handleDelete = async () => {
         console.log("Deleting event...");
-        await deleteDoc(doc(db, "events", event.name));
+        await deleteDoc(doc(db, "events", event.id));
+        dispatch('close');
     }
 </script>
 
@@ -58,7 +59,6 @@
         height: 600px;
         width: 1000px;
         display: flex;
-        /* background-color: black; */
     }
     .poster {
         width: 600px;
@@ -73,7 +73,6 @@
         max-width: 550px;
     }
     .details {
-        /* background-color: orangered; */
         font-family: var(--body-font);
         width: 400px;
         height: 600px;
@@ -81,6 +80,12 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+    }
+    .details > a:link {
+        color: var(--highlight);
+    }
+    .details > a:visited {
+        color: var(--highlight);
     }
     .details > h3 {
         font-family: var(--title-font);
@@ -96,15 +101,20 @@
         left: 10px;
     }
     .close > button, .delete > button {
-        padding: 5px 10px;
-        outline: none;
-        background: none;
+        padding: 10px 15px;
         color: var(--highlight);
+        font-size: 0.8rem;
+        font-family: var(--body-font);
+        background: none;
+        outline: none;
         border: 2px solid var(--highlight);
         border-radius: 5px;
+        transition: 0.3s;
     }
-    .close :hover, .delete :hover {
+    .close > button:hover, .delete > button:hover {
+        background-color: var(--highlight);
         color: white;
+        transition: 0.3s;
     }
     .hide {
         display: none;

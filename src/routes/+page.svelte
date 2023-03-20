@@ -1,6 +1,7 @@
 <script>
     import Card from "$lib/components/Card.svelte";
     import Overlay from "$lib/components/Overlay.svelte";
+    import { authStore } from "$lib/stores/auth-store";
     import { db } from "$lib/firebase-config";
     import { collection, query, onSnapshot } from "firebase/firestore";
 
@@ -17,8 +18,8 @@
                 date: doc.data().date,
                 duration: doc.data().duration,
                 link: doc.data().link,
-                id: doc.data().id
-            }
+                id: doc.id,
+            };
             fbEvents.push(event);
         });
         events = fbEvents;
@@ -42,9 +43,17 @@
     {/each}
 </div>
 
-<div class:hide-overlay={hideOverlay}>
-    <Overlay event={dummy} on:close={closeOverlay} />
-</div>
+{#if $authStore.isLoggedIn}
+    <div class="add-event">
+        <button>Add Event</button>
+    </div>
+{/if}
+
+{#if !hideOverlay}
+    <div>
+        <Overlay event={dummy} on:close={closeOverlay} />
+    </div>
+{/if}
 
 <style>
     .container {
@@ -53,7 +62,25 @@
         gap: 40px;
         grid-template-columns: repeat(auto-fill, 250px);
     }
-    .hide-overlay {
-        display: none;
+    .add-event {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+    }
+    .add-event > button {
+        padding: 10px 15px;
+        color: var(--highlight);
+        font-size: 0.8rem;
+        font-family: var(--body-font);
+        background: white;
+        outline: none;
+        border: 2px solid var(--highlight);
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+    .add-event > button:hover {
+        background-color: var(--highlight);
+        color: white;
+        transition: 0.3s;
     }
 </style>

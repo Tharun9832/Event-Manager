@@ -31,6 +31,7 @@
         width: 250px;
         border: 2px solid var(--title-color);
         box-shadow: 5px 5px var(--title-color);
+        transition: 0.3s;
     }
     .event-poster {
         display: flex;
@@ -66,12 +67,8 @@
     }
     .container:hover {
         cursor: pointer;
-        animation: over 0.3s forwards;
+        translate: 5px 5px;
+        box-shadow: 0px 0px;
+        transition: 0.3s;
     }
-    @keyframes over {
-        to {
-            translate: 5px 5px;
-            box-shadow: 0px 0px;
-        }
-    } 
 </style>

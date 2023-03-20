@@ -88,10 +88,12 @@
         font-family: var(--body-font);
         font-size: 0.9rem;
         box-shadow: 0px 4px #cfd1d4;
+        transition: 0.2s;
     }
     .form > button:active {
         box-shadow: 0px 0px;
         transform: translateY(4px);
+        transition: 0.2s;
     }
     .hide-message {
         display: none;
