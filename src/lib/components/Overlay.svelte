@@ -3,11 +3,12 @@
     import { authStore } from "../stores/auth-store";
     import { doc, deleteDoc } from "firebase/firestore";
     import { db } from "../firebase-config";
-    import { ref, getDownloadURL } from "firebase/storage";
-    import {storage} from "../firebase-config";
+    import { ref, getDownloadURL, deleteObject  } from "firebase/storage";
+    import { storage } from "../firebase-config";
 
     export let event;
     const dispatch = createEventDispatcher();
+    const desertRef = ref(storage, 'posters/'+event.poster);
 
     function closeOverlay() {
         dispatch('close');
@@ -16,6 +17,13 @@
     const handleDelete = async () => {
         console.log("Deleting event...");
         await deleteDoc(doc(db, "events", event.id));
+
+        deleteObject(desertRef).then(() => {
+            // File deleted successfully
+        }).catch((error) => {
+            // Uh-oh, an error occurred!
+        });
+
         dispatch('close');
     }
 
