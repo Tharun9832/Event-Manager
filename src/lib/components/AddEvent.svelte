@@ -17,7 +17,7 @@
             fee: fee,
             date: date,
             duration: duration,
-            link: "http://"+link,
+            link: link,
         }
         addDoc(collection(db, "events"), event);
         dispatch('close');
@@ -38,7 +38,7 @@
             <input type="text" name="event-description" id="edesc" bind:value={desc}>
         </label>
         <label for="fee">
-            Event fee : <br>
+            Event fee (in rupee) : <br>
             <input type="text" name="fee" id="fee" bind:value={fee}>
         </label>
         <label for="date">
@@ -46,12 +46,16 @@
             <input type="text" name="date" id="date" bind:value={date}>
         </label>
         <label for="duration">
-            Event duration : <br>
+            Event duration (no. of days) : <br>
             <input type="text" name="date" id="date" bind:value={duration}>
         </label>
         <label for="link">
             Event registration link : <br>
             <input type="text" name="link" id="link" bind:value={link}>
+        </label>
+        <label for="poster">
+            Upload poster:
+            <input type="file" name="poster" id="poster">
         </label>
     </form>
     <div class="close">
@@ -74,7 +78,7 @@
         color: white;
     }
     .overlay > form {
-        height: 500px;
+        height: 600px;
         width: 500px;
         display: flex;
         flex-direction: column;
@@ -85,6 +89,7 @@
         width: 500px;
         padding: 10px;
         font-size: 1rem;
+        border-radius: 5px;
     }
     .close {
         position: absolute;
@@ -98,18 +103,19 @@
     }
     .close > button, .add-event > button {
         padding: 10px 15px;
-        color: var(--highlight);
+        color: white;
         font-size: 0.8rem;
         font-family: var(--body-font);
-        background: none;
+        background: var(--highlight);
         outline: none;
         border: 2px solid var(--highlight);
         border-radius: 5px;
         transition: 0.3s;
     }
     .close > button:hover, .add-event > button:hover {
-        background-color: var(--highlight);
-        color: white;
+        background-color: transparent;
+        color: var(--highlight);
         transition: 0.3s;
+        cursor: pointer;
     }
 </style>

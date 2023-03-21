@@ -3,7 +3,8 @@
     import { authStore } from "../stores/auth-store";
     import { doc, deleteDoc } from "firebase/firestore";
     import { db } from "../firebase-config";
-
+    import { ref, getDownloadURL } from "firebase/storage";
+    import {storage} from "../firebase-config";
 
     export let event;
     const dispatch = createEventDispatcher();
@@ -17,6 +18,24 @@
         await deleteDoc(doc(db, "events", event.id));
         dispatch('close');
     }
+
+    let posterLink;
+    getDownloadURL(ref(storage, 'posters/'+event.poster))
+    .then((url) => {
+        posterLink = url;
+    })
+    .catch((url) => {
+        getDownloadURL(ref(storage, 'noposter.jpg'))
+        .then((url) => {
+            posterLink = url;
+        })
+    })
+
+    function sendInfo() {
+        dispatch('message', {
+            event: event
+        });
+    }
 </script>
 
 <div class="overlay">
@@ -25,7 +44,7 @@
     </div>
     <div class="container">
         <div class="poster">
-            <img src={event.poster} alt="Event Poster">
+            <img src={posterLink} alt="Event Poster">
         </div>
         <div class="details">
             <h3 id="name">{event.name}</h3>
@@ -102,19 +121,20 @@
     }
     .close > button, .delete > button {
         padding: 10px 15px;
-        color: var(--highlight);
+        color: white;
         font-size: 0.8rem;
         font-family: var(--body-font);
-        background: none;
+        background: var(--highlight);
         outline: none;
         border: 2px solid var(--highlight);
         border-radius: 5px;
         transition: 0.3s;
     }
     .close > button:hover, .delete > button:hover {
-        background-color: var(--highlight);
-        color: white;
+        background-color: transparent;
+        color: var(--highlight);
         transition: 0.3s;
+        cursor: pointer;
     }
     .hide {
         display: none;

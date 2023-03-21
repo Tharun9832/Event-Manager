@@ -1,8 +1,22 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { ref, getDownloadURL } from "firebase/storage";
+    import {storage} from "../firebase-config";
 
     export let event;
     const dispatch = createEventDispatcher();
+
+    let posterLink;
+    getDownloadURL(ref(storage, 'posters/'+event.poster))
+    .then((url) => {
+        posterLink = url;
+    })
+    .catch((url) => {
+        getDownloadURL(ref(storage, 'noposter.jpg'))
+        .then((url) => {
+            posterLink = url;
+        })
+    })
 
     function sendInfo() {
         dispatch('message', {
@@ -14,7 +28,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="container">
     <div class="event-poster" on:click={sendInfo}>
-        <img src={event.poster} alt="Event Poster" />
+        <img src={posterLink} alt="Event Poster" />
     </div>
     <div class="event-details" on:click={sendInfo}>
         <h3 id="name">{event.name}</h3>

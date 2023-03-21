@@ -19,6 +19,7 @@
                 date: doc.data().date,
                 duration: doc.data().duration,
                 link: doc.data().link,
+                poster: doc.data().poster,
                 id: doc.id,
             };
             fbEvents.push(event);
@@ -43,7 +44,7 @@
 </script>
 
 <div class="container">
-    {#each events as event}
+    {#each events as event (event.id)}
         <Card {event} on:message={showOverlay} />
     {/each}
 </div>
