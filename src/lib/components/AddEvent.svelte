@@ -2,8 +2,10 @@
     import { collection, addDoc } from "firebase/firestore";
     import { createEventDispatcher } from "svelte";
     import { db } from "../firebase-config";
+    import { storage } from "../firebase-config";
+    import { ref, uploadBytes } from "firebase/storage";
 
-    let name, desc, fee, date, duration, link;
+    let name, desc, fee, date, duration, link, posterName, poster;
     const dispatch = createEventDispatcher();
 
     function closeOverlay() {
@@ -11,6 +13,9 @@
     }
 
     function handleSubmit() {
+        posterName = posterName.replace(/.*[\/\\]/, '');
+        poster = poster[0];
+
         let event = {
             name: name,
             description: desc,
@@ -18,8 +23,15 @@
             date: date,
             duration: duration,
             link: link,
+            poster: posterName,
         }
         addDoc(collection(db, "events"), event);
+
+        const storageRef = ref(storage, 'posters/'+posterName);
+        uploadBytes(storageRef, poster).then((snapshot) => {
+            console.log('Uploaded the poster!');
+        });
+
         dispatch('close');
     }
 </script>
@@ -30,32 +42,32 @@
     </div>
     <form>
         <label for="event-name">
-            Event name : <br>
+            Event name : *<br>
             <input type="text" name="event-name" id="ename" bind:value={name}>
         </label>
         <label for="event-desc">
-            Event description : <br>
+            Event description : *<br>
             <input type="text" name="event-description" id="edesc" bind:value={desc}>
         </label>
         <label for="fee">
-            Event fee (in rupee) : <br>
+            Event fee (in INR) : *<br>
             <input type="text" name="fee" id="fee" bind:value={fee}>
         </label>
         <label for="date">
-            Event date (dd/mm/yyyy) : <br>
+            Event date (dd/mm/yyyy) : *<br>
             <input type="text" name="date" id="date" bind:value={date}>
         </label>
         <label for="duration">
-            Event duration (no. of days) : <br>
+            Event duration (no. of days) : *<br>
             <input type="text" name="date" id="date" bind:value={duration}>
         </label>
         <label for="link">
-            Event registration link : <br>
+            Event registration link : *<br>
             <input type="text" name="link" id="link" bind:value={link}>
         </label>
         <label for="poster">
-            Upload poster:
-            <input type="file" name="poster" id="poster">
+            Upload poster (jpeg, jpg, png) : *
+            <input type="file" name="poster" id="poster" bind:files={poster} bind:value={posterName} accept=".jpeg,.jpg,.png">
         </label>
     </form>
     <div class="close">
@@ -78,7 +90,7 @@
         color: white;
     }
     .overlay > form {
-        height: 600px;
+        height: 650px;
         width: 500px;
         display: flex;
         flex-direction: column;
@@ -90,6 +102,7 @@
         padding: 10px;
         font-size: 1rem;
         border-radius: 5px;
+        outline: none;
     }
     .close {
         position: absolute;

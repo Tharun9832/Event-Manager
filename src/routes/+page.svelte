@@ -6,7 +6,7 @@
     import { db } from "$lib/firebase-config";
     import { collection, query, onSnapshot } from "firebase/firestore";
 
-    let events = [];
+    let events = [], placeHolderText = "Loading events...";
 
     const q = query(collection(db, "events"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -25,6 +25,9 @@
             fbEvents.push(event);
         });
         events = fbEvents;
+        if (events.length === 0) {
+            placeHolderText = "No events available right now...";
+        }
     });
 
     let hideOverlay = true;
@@ -48,6 +51,10 @@
         <Card {event} on:message={showOverlay} />
     {/each}
 </div>
+
+{#if events.length === 0}
+        <p class="placeholder">{placeHolderText}</p>
+{/if}
 
 {#if $authStore.isLoggedIn}
     <div class="add-event">
@@ -94,5 +101,12 @@
         background-color: var(--highlight);
         color: white;
         transition: 0.3s;
+        cursor: pointer;
+    }
+    .placeholder {
+        text-align: center;
+        font-family: var(--body-font);
+        font-size: 1.2rem;
+        color: #a2a2a2;
     }
 </style>

@@ -47,12 +47,12 @@
             <img src={posterLink} alt="Event Poster">
         </div>
         <div class="details">
-            <h3 id="name">{event.name}</h3>
-            <p id="description">{event.description}</p>
-            <p>Fee: {event.fee}</p>
-            <p>Date: {event.date}</p>
-            <p>Duration: {event.duration} {event.duration == 1 ? 'day' : 'days'}</p>
-            <a href={event.link}>Register <i class="fa fa-external-link" aria-hidden="true"></i></a>
+            <p id="name">{event.name}</p>
+            <p id="description"><b>Event description:</b> {event.description}</p>
+            <p><b>Fee:</b> {event.fee}</p>
+            <p><b>Date:</b> {event.date}</p>
+            <p><b>Duration:</b> {event.duration} {event.duration == 1 ? 'day' : 'days'}</p>
+            <a href={event.link} target="_blank" rel="noreferrer">Register <i class="fa fa-external-link" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="close">
@@ -78,6 +78,7 @@
         height: 600px;
         width: 1000px;
         display: flex;
+        align-items: center;
     }
     .poster {
         width: 600px;
@@ -94,11 +95,11 @@
     .details {
         font-family: var(--body-font);
         width: 400px;
-        height: 600px;
+        height: 500px;
         padding: 20px;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: space-evenly;
     }
     .details > a:link {
         color: var(--highlight);
@@ -106,8 +107,9 @@
     .details > a:visited {
         color: var(--highlight);
     }
-    .details > h3 {
+    #name {
         font-family: var(--title-font);
+        font-size: 1.5rem;
     }
     .close {
         position: absolute;
